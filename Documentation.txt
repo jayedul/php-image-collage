@@ -1,0 +1,60 @@
+There are two folders.
+1. api
+2. example
+
+'api' contains the main and only one class that has image manipulation functions in it.
+
+example folders has sample images and index.php file.
+Put this root folder somewhere where you can access the index.php file via local/live server. You would see predefined images as single image gallery.
+
+To understand what's going on there, you should understand the mechanism.
+
+All you need is include the class file 'Gallery.Class.php' in your project file and instantiate the class.
+Here I created the object in '$image' variable. You must pass exactly three parameters to the constructor.
+
+First one is the width of final image or rendered gallery or whatever you say.
+Second one is the height.
+And the last one is final image format that the image would be rendered as. I recommend 'png' as its render quality is the best. However jpg, png and gif available.
+
+So it would look like this
+
+<?php
+	$image=new Gallery(1200,720,'png');
+?>
+
+This statement would initialize layouts and sets width, height and format.
+
+Then, the 'Gallery' class has 4 method you are able to access.
+
+1. setImages(array)
+Pass array of images' directory to this method as parameter. This method would check file existence and prepare theme to create gallery. This script supports png, gif and jpg.
+
+2. process(bool)
+This method actually create the gallery. It requires an optional boolean parameter.
+true :~ images would be stretched to fit them inside layout. Its similar to css background-size:100% 100%
+false :~ outside of images would be cut to look image real. Its similar to css background-size:cover
+
+3. renderGallery()
+This method send the final rendered single image gallery to the browser.
+
+4. getGallery()
+This method returns the gallery image back to the script that it is called from. So you can add more elements such as text. Then you should manually send to browser or do whatever you would like.
+
+The steps to call these functions are
+
+$image=new Gallery(1200,720,'png');
+then, setImages
+then, process
+then renderGallery or getGallery
+
+Or you can use method chaining
+For example
+
+<?php
+	$images_source=['img1.jpg','img2.png','img3.gif'];
+	$image=new Gallery(1200,720,'png');
+	$image->setImages(['img.jpg','img2.png'])->process()->renderGallery();
+?>
+	
+
+For now maximum 10 images can be added in gallery. However you can add more image support by just adding more layout in the private property '$layout'.
